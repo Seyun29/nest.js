@@ -1,10 +1,8 @@
+import { Request, Response } from "express";
 import { Cat, CatType } from "./cats.model";
-import { Router } from "express";
-
-const router = Router();
 
 //* READ 고양이 전체 데이터 다 조회 -> GET
-router.get("/cats", (req, res) => {
+export const readAllcat = (req: Request, res: Response) => {
   try {
     const cats = Cat;
     // throw new Error('db connect error');
@@ -14,16 +12,16 @@ router.get("/cats", (req, res) => {
         cats,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(400).send({
       success: false,
       error: error.message,
     });
   }
-});
+};
 
 //* READ 특정 고양이 데이터 조회 -> GET
-router.get("/cats/:id", (req, res) => {
+export const readCat = (req: Request, res: Response) => {
   try {
     const params = req.params;
     console.log(params);
@@ -42,10 +40,10 @@ router.get("/cats/:id", (req, res) => {
       error: error.message,
     });
   }
-});
+};
 
 //* CREATE 새로운 고양이 추가 api -> POST
-router.post("/cats", (req, res) => {
+export const createCat = (req: Request, res: Response) => {
   try {
     const data = req.body;
     Cat.push(data); // create
@@ -59,10 +57,10 @@ router.post("/cats", (req, res) => {
       error: error.message,
     });
   }
-});
+};
 
 //* UPDATE 고양이 데이터 업데이트 -> PUT
-router.put("/cats/:id", (req, res) => {
+export const updateCat = (req: Request, res: Response) => {
   try {
     const params = req.params;
     const body = req.body;
@@ -85,10 +83,10 @@ router.put("/cats/:id", (req, res) => {
       error: error.message,
     });
   }
-});
+};
 
 //* UPDATE 고양이 데이터 부분적으로 업데이트 -> PATCH
-router.patch("/cats/:id", (req, res) => {
+export const updatePartialCat = (req: Request, res: Response) => {
   try {
     const params = req.params;
     const body = req.body;
@@ -111,10 +109,10 @@ router.patch("/cats/:id", (req, res) => {
       error: error.message,
     });
   }
-});
+};
 
 //* DELETE 고양이 데이터 삭제 -> DELETE
-router.delete("/cats/:id", (req, res) => {
+export const deleteCat = (req: Request, res: Response) => {
   try {
     const params = req.params;
     const newCat = Cat.filter((cat) => cat.id !== params.id);
@@ -128,6 +126,4 @@ router.delete("/cats/:id", (req, res) => {
       error: error.message,
     });
   }
-});
-
-export default router;
+};
